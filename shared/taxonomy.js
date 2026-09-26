@@ -1,0 +1,84 @@
+// Generic, multi-profession skills taxonomy. The resume parser matches a resume against these groups
+// to build a candidate profile; the scorer then matches job descriptions against that profile.
+// terms: lowercase phrases (pad short ones with spaces), tools: product names counted as "tools/tech",
+// roles: title fragments that indicate a job in this family.
+
+export const TAXONOMY = [
+  // ---- IT infrastructure / end-user computing ----
+  { key: 'dex', label: 'DEX / Nexthink', domain: 'End-user computing', terms: ['nexthink', 'digital employee experience', ' dex ', 'dex score', 'employee experience', 'systrack', 'lakeside', 'remote action'], tools: ['nexthink', 'systrack', '1e tachyon'], roles: ['dex', 'nexthink', 'employee experience'] },
+  { key: 'mdm', label: 'Intune / MDM', domain: 'End-user computing', terms: ['intune', 'autopilot', 'modern workplace', 'endpoint manager', ' mdm', 'mobile device management', ' uem', 'workspace one', 'airwatch'], tools: ['intune', 'autopilot', 'workspace one'], roles: ['intune', 'mdm', 'modern workplace', 'endpoint', 'uem'] },
+  { key: 'sccm', label: 'SCCM / MECM & patching', domain: 'End-user computing', terms: ['sccm', 'mecm', 'configuration manager', 'wsus', 'patching', 'patch management', 'packaging', 'task sequence', 'software deployment'], tools: ['sccm', 'mecm', 'wsus'], roles: ['sccm', 'mecm', 'packaging', 'patch'] },
+  { key: 'mac', label: 'JAMF / macOS', domain: 'End-user computing', terms: ['jamf', 'macos', 'mac os', 'apple business manager', ' abm ', ' ade ', 'kandji', 'apple device'], tools: ['jamf', 'kandji', 'apple business manager'], roles: ['jamf', 'mac', 'apple'] },
+  { key: 'euc', label: 'Desktop / EUC engineering', domain: 'End-user computing', terms: ['end user computing', ' euc', 'desktop engineering', 'windows 10', 'windows 11', 'group policy', ' gpo', 'imaging', 'bitlocker'], tools: ['group policy', 'bitlocker'], roles: ['desktop', 'euc', 'end user', 'workplace', 'endpoint'] },
+  { key: 'vdi', label: 'Citrix / VDI', domain: 'End-user computing', terms: ['citrix', 'xenapp', 'xendesktop', ' vdi', 'virtual desktop', ' avd', 'vmware horizon', 'windows 365'], tools: ['citrix', 'vmware horizon', 'avd'], roles: ['citrix', 'vdi', 'virtual desktop'] },
+  { key: 'support', label: 'L2/L3 & production support', domain: 'IT operations', terms: ['production support', 'application support', ' l2', ' l3', 'level 2', 'level 3', 'escalation', 'incident', 'on-call', '24x7', '24/7', ' sla', 'service desk', 'help desk', 'helpdesk', 'desktop support', 'technical support', 'troubleshoot'], tools: [], roles: ['support', 'service desk', 'helpdesk', 'help desk', 'operations'] },
+  { key: 'itsm', label: 'ITIL / ITSM', domain: 'IT operations', terms: ['itil', 'itsm', 'change management', 'problem management', 'incident management', 'servicenow', 'jira service', 'remedy', 'root cause', ' rca'], tools: ['servicenow', 'jira service management', 'bmc remedy'], roles: ['itsm', 'servicenow', 'problem manager', 'incident manager', 'change manager'] },
+  { key: 'identity', label: 'Identity & access (AD / Entra / Okta)', domain: 'Identity & security', terms: ['active directory', 'azure ad', 'entra', 'okta', 'identity', 'access management', ' iam', 'conditional access', ' sso', ' mfa', 'sailpoint', 'cyberark', 'provisioning'], tools: ['active directory', 'azure ad', 'entra', 'okta', 'sailpoint', 'cyberark'], roles: ['identity', 'iam', 'access'] },
+  { key: 'm365', label: 'Microsoft 365 / Exchange', domain: 'Collaboration', terms: ['microsoft 365', ' m365', 'office 365', ' o365', 'exchange', 'sharepoint', 'onedrive', 'microsoft teams', 'google workspace'], tools: ['microsoft 365', 'exchange', 'sharepoint', 'google workspace'], roles: ['m365', 'microsoft 365', 'office 365', 'exchange', 'collaboration'] },
+  { key: 'network', label: 'Networking', domain: 'Infrastructure', terms: ['tcp/ip', ' dns', ' dhcp', ' vpn', ' lan', ' wan', 'routing', 'switching', 'firewall', 'cisco', 'ccna', 'sd-wan', 'load balancer'], tools: ['cisco', 'palo alto', 'fortinet', 'zscaler'], roles: ['network'] },
+  { key: 'endsec', label: 'Endpoint & cyber security', domain: 'Identity & security', terms: ['crowdstrike', 'zscaler', 'mcafee', 'defender', 'endpoint security', ' edr', ' siem', ' soc ', 'vulnerability', 'iso 27001', 'hardening', 'cis benchmark', 'penetration', 'threat'], tools: ['crowdstrike', 'zscaler', 'defender', 'splunk', 'qradar', 'sentinelone', 'tenable', 'qualys'], roles: ['security', 'soc', 'cyber'] },
+  { key: 'sysadmin', label: 'Windows / Linux server admin', domain: 'Infrastructure', terms: ['windows server', 'linux', 'red hat', 'rhel', 'ubuntu', 'vmware', 'vsphere', 'hyper-v', 'backup', 'active directory'], tools: ['vmware', 'vsphere', 'hyper-v', 'veeam'], roles: ['system administrator', 'systems administrator', 'sysadmin', 'infrastructure', 'systems engineer', 'server'] },
+  { key: 'scripting', label: 'Scripting & automation', domain: 'Automation', terms: ['powershell', 'python', 'bash', 'scripting', 'automation', 'automate', ' rpa', 'uipath', 'power automate'], tools: ['powershell', 'python', 'uipath', 'power automate'], roles: ['automation'] },
+  // ---- cloud / devops ----
+  { key: 'azure', label: 'Microsoft Azure', domain: 'Cloud', terms: ['azure', 'arm template', 'bicep', 'azure devops'], tools: ['azure', 'azure devops'], roles: ['azure', 'cloud'] },
+  { key: 'aws', label: 'AWS', domain: 'Cloud', terms: [' aws', 'amazon web services', ' ec2', ' s3', 'lambda', 'cloudformation'], tools: ['aws', 'cloudformation'], roles: ['aws', 'cloud'] },
+  { key: 'gcp', label: 'Google Cloud', domain: 'Cloud', terms: [' gcp', 'google cloud', 'bigquery', 'gke'], tools: ['gcp', 'bigquery'], roles: ['gcp', 'google cloud', 'cloud'] },
+  { key: 'containers', label: 'Kubernetes & containers', domain: 'DevOps', terms: ['kubernetes', ' k8s', 'docker', 'helm', 'openshift', 'container'], tools: ['kubernetes', 'docker', 'helm', 'openshift'], roles: ['kubernetes', 'platform', 'devops'] },
+  { key: 'iac', label: 'Infrastructure as code', domain: 'DevOps', terms: ['terraform', 'ansible', 'puppet', 'chef', 'infrastructure as code', ' iac', ' dsc'], tools: ['terraform', 'ansible', 'puppet'], roles: ['devops', 'platform', 'infrastructure'] },
+  { key: 'cicd', label: 'CI/CD', domain: 'DevOps', terms: ['ci/cd', 'jenkins', 'github actions', 'gitlab', 'pipeline', 'argo'], tools: ['jenkins', 'github actions', 'gitlab', 'argocd'], roles: ['devops', 'build', 'release'] },
+  { key: 'observability', label: 'Monitoring & observability', domain: 'DevOps', terms: ['splunk', 'datadog', 'prometheus', 'grafana', 'new relic', 'dynatrace', 'monitoring', 'observability', 'elk'], tools: ['splunk', 'datadog', 'prometheus', 'grafana', 'dynatrace', 'new relic'], roles: ['sre', 'site reliability', 'monitoring', 'observability'] },
+  // ---- software ----
+  { key: 'frontend', label: 'Front-end development', domain: 'Software', terms: ['react', 'angular', 'vue', 'typescript', 'javascript', 'html', 'css', 'next.js', 'redux'], tools: ['react', 'angular', 'vue', 'typescript', 'next.js'], roles: ['frontend', 'front end', 'front-end', 'ui developer', 'web developer'] },
+  { key: 'backend', label: 'Back-end development', domain: 'Software', terms: ['java', 'spring', 'node.js', 'nodejs', '.net', ' c#', 'django', 'flask', 'golang', 'microservices', 'rest api', 'graphql', 'kotlin'], tools: ['java', 'spring boot', 'node.js', '.net', 'django', 'golang'], roles: ['backend', 'back end', 'software engineer', 'developer', 'programmer', 'full stack'] },
+  { key: 'mobile', label: 'Mobile development', domain: 'Software', terms: ['android', ' ios', 'swift', 'flutter', 'react native', 'kotlin'], tools: ['android', 'swift', 'flutter', 'react native'], roles: ['mobile', 'android', 'ios developer'] },
+  { key: 'databases', label: 'Databases & SQL', domain: 'Data', terms: [' sql', 'postgres', 'mysql', 'mongodb', 'oracle', 'sql server', 'nosql', 'database'], tools: ['sql', 'postgresql', 'mysql', 'mongodb', 'oracle', 'sql server'], roles: ['database', 'dba'] },
+  { key: 'qa', label: 'QA & testing', domain: 'Software', terms: ['selenium', 'cypress', 'test automation', 'manual testing', 'jmeter', 'test cases', 'regression', 'playwright', 'quality assurance'], tools: ['selenium', 'cypress', 'jmeter', 'playwright'], roles: ['qa', 'test', 'quality', 'sdet'] },
+  // ---- data / AI ----
+  { key: 'dataeng', label: 'Data engineering', domain: 'Data', terms: ['spark', 'airflow', ' etl', 'snowflake', 'databricks', 'data pipeline', 'kafka', 'hadoop', 'dbt'], tools: ['spark', 'airflow', 'snowflake', 'databricks', 'kafka', 'dbt'], roles: ['data engineer', 'etl', 'big data'] },
+  { key: 'bi', label: 'Analytics & BI', domain: 'Data', terms: ['power bi', 'tableau', 'looker', 'excel', 'dashboard', 'reporting', ' kpi', 'analytics', 'data analysis'], tools: ['power bi', 'tableau', 'looker', 'excel'], roles: ['analyst', 'bi ', 'business intelligence', 'reporting'] },
+  { key: 'ml', label: 'Machine learning & AI', domain: 'AI', terms: ['machine learning', 'deep learning', 'tensorflow', 'pytorch', ' llm', ' nlp', 'computer vision', 'generative ai', 'genai', 'scikit'], tools: ['tensorflow', 'pytorch', 'scikit-learn', 'langchain'], roles: ['machine learning', 'ml engineer', 'data scientist', 'ai engineer'] },
+  // ---- enterprise apps ----
+  { key: 'salesforce', label: 'Salesforce', domain: 'Enterprise apps', terms: ['salesforce', 'apex', 'lightning', 'service cloud', 'sales cloud'], tools: ['salesforce'], roles: ['salesforce'] },
+  { key: 'sap', label: 'SAP / ERP', domain: 'Enterprise apps', terms: [' sap', 's/4hana', ' abap', ' fico', ' erp', 'oracle ebs', 'dynamics 365', 'netsuite', 'workday'], tools: ['sap', 'dynamics 365', 'netsuite', 'workday'], roles: ['sap', 'erp', 'workday', 'dynamics'] },
+  // ---- business ----
+  { key: 'pm', label: 'Project / program management', domain: 'Management', terms: ['project management', 'program management', ' pmp', 'prince2', 'stakeholder', 'agile', 'scrum', 'jira', 'roadmap', 'budget'], tools: ['jira', 'ms project', 'confluence'], roles: ['project manager', 'program manager', 'scrum master', 'delivery manager', 'pmo'] },
+  { key: 'product', label: 'Product management', domain: 'Management', terms: ['product management', 'product roadmap', 'user stories', 'product owner', 'go-to-market', 'prd'], tools: [], roles: ['product manager', 'product owner'] },
+  { key: 'ba', label: 'Business analysis', domain: 'Management', terms: ['business analysis', 'requirements gathering', 'brd', 'frd', 'bpmn', ' uat', 'gap analysis', 'process mapping'], tools: ['visio'], roles: ['business analyst', 'functional consultant'] },
+  { key: 'people', label: 'Team leadership & mentoring', domain: 'Management', terms: ['mentor', 'mentored', 'led a team', 'team lead', 'people management', 'coached', 'trained'], tools: [], roles: ['lead', 'manager', 'head'] },
+  { key: 'sales', label: 'Sales & business development', domain: 'Business', terms: ['sales', 'quota', 'pipeline generation', 'business development', 'account management', 'lead generation', 'b2b'], tools: ['hubspot', 'salesforce'], roles: ['sales', 'account executive', 'business development', 'account manager'] },
+  { key: 'marketing', label: 'Marketing', domain: 'Business', terms: [' seo', ' sem', 'content marketing', 'social media', 'google ads', 'campaign', 'brand', 'email marketing'], tools: ['google ads', 'hubspot', 'google analytics'], roles: ['marketing', 'seo', 'content', 'growth'] },
+  { key: 'finance', label: 'Finance & accounting', domain: 'Finance', terms: ['accounting', ' gaap', ' ifrs', 'reconciliation', 'accounts payable', 'accounts receivable', 'financial reporting', 'audit', 'tally', 'taxation', 'budgeting'], tools: ['tally', 'quickbooks', 'sap fico'], roles: ['accountant', 'finance', 'audit', 'controller', 'accounts'] },
+  { key: 'hr', label: 'HR & recruiting', domain: 'People', terms: ['recruitment', 'talent acquisition', 'payroll', 'onboarding', 'hrms', 'employee relations', 'sourcing'], tools: ['workday', 'successfactors'], roles: ['hr', 'recruiter', 'talent', 'people partner'] },
+  { key: 'cx', label: 'Customer support & success', domain: 'Customer', terms: ['customer support', 'customer success', 'zendesk', 'freshdesk', 'csat', ' nps', 'client relationship'], tools: ['zendesk', 'freshdesk', 'intercom'], roles: ['customer success', 'customer support', 'client'] },
+  { key: 'design', label: 'UX / UI design', domain: 'Design', terms: ['figma', 'user experience', ' ux', ' ui ', 'wireframe', 'prototype', 'design system', 'adobe xd', 'user research'], tools: ['figma', 'adobe xd', 'sketch'], roles: ['designer', 'ux', 'ui'] },
+  { key: 'health', label: 'Healthcare', domain: 'Healthcare', terms: ['clinical', ' ehr', ' emr', 'hipaa', 'medical coding', 'patient', 'epic', 'cerner', 'pharma'], tools: ['epic', 'cerner'], roles: ['clinical', 'medical', 'healthcare', 'nurse', 'pharma'] },
+  { key: 'ops', label: 'Operations & supply chain', domain: 'Operations', terms: ['supply chain', 'logistics', 'procurement', 'inventory', 'vendor management', 'warehouse', 'six sigma', 'lean'], tools: ['sap mm'], roles: ['operations', 'supply chain', 'procurement', 'logistics'] },
+];
+
+export const ALL_TOOLS = [...new Set(TAXONOMY.flatMap((g) => g.tools))];
+
+export const AI_COMPANIES = ['openai', 'anthropic', 'nvidia', 'databricks', 'scale ai', 'cohere', 'mistral', 'hugging face', 'glean', 'moveworks', 'uipath', 'aisera', 'deepmind', 'perplexity', 'sarvam', 'krutrim', 'fractal', 'observe.ai', 'gupshup', 'yellow.ai', 'haptik'];
+
+// Relocation options offered at upload time. linkedin = location string for LinkedIn guest search.
+export const MARKET_OPTIONS = [
+  { id: 'uae', label: 'Dubai / UAE', prefix: 'DXB', linkedin: 'United Arab Emirates', match: 'dubai|abu dhabi|emirates|uae|sharjah' },
+  { id: 'singapore', label: 'Singapore', prefix: 'SIN', linkedin: 'Singapore', match: 'singapore' },
+  { id: 'canada', label: 'Canada', prefix: 'CAN', linkedin: 'Canada', match: 'canada|toronto|vancouver|ontario|montreal|calgary' },
+  { id: 'uk', label: 'United Kingdom', prefix: 'UK', linkedin: 'United Kingdom', match: 'united kingdom|london|england|scotland|manchester' },
+  { id: 'usa', label: 'United States', prefix: 'USA', linkedin: 'United States', match: 'united states|, [a-z]{2}$|new york|california|texas' },
+  { id: 'germany', label: 'Germany', prefix: 'DE', linkedin: 'Germany', match: 'germany|berlin|munich|frankfurt' },
+  { id: 'netherlands', label: 'Netherlands', prefix: 'NL', linkedin: 'Netherlands', match: 'netherlands|amsterdam|rotterdam' },
+  { id: 'ireland', label: 'Ireland', prefix: 'IE', linkedin: 'Ireland', match: 'ireland|dublin' },
+  { id: 'australia', label: 'Australia', prefix: 'AU', linkedin: 'Australia', match: 'australia|sydney|melbourne' },
+  { id: 'saudi', label: 'Saudi Arabia', prefix: 'KSA', linkedin: 'Saudi Arabia', match: 'saudi|riyadh|jeddah' },
+  { id: 'qatar', label: 'Qatar', prefix: 'QA', linkedin: 'Qatar', match: 'qatar|doha' },
+];
+
+export const CITY_ALIASES = { bangalore: 'Bengaluru', bengaluru: 'Bengaluru', bombay: 'Mumbai', gurgaon: 'Gurugram', madras: 'Chennai' };
+export const KNOWN_CITIES = ['Bengaluru', 'Bangalore', 'Mumbai', 'Pune', 'Hyderabad', 'Chennai', 'Delhi', 'New Delhi', 'Noida', 'Gurugram', 'Gurgaon', 'Kolkata', 'Ahmedabad', 'Kochi', 'Coimbatore', 'Jaipur', 'Mysuru', 'Trivandrum',
+  'Dubai', 'Abu Dhabi', 'Singapore', 'London', 'Manchester', 'Toronto', 'Vancouver', 'Montreal', 'New York', 'San Francisco', 'Seattle', 'Austin', 'Chicago', 'Boston', 'Dallas',
+  'Berlin', 'Munich', 'Amsterdam', 'Dublin', 'Sydney', 'Melbourne', 'Riyadh', 'Doha', 'Kuala Lumpur', 'Manila', 'Colombo', 'Dhaka', 'Karachi', 'Lahore', 'Nairobi', 'Lagos', 'Johannesburg', 'Cairo'];
+export const COUNTRY_OF = { Bengaluru: 'India', Mumbai: 'India', Pune: 'India', Hyderabad: 'India', Chennai: 'India', Delhi: 'India', 'New Delhi': 'India', Noida: 'India', Gurugram: 'India', Kolkata: 'India', Ahmedabad: 'India', Kochi: 'India', Coimbatore: 'India', Jaipur: 'India', Mysuru: 'India', Trivandrum: 'India',
+  Dubai: 'United Arab Emirates', 'Abu Dhabi': 'United Arab Emirates', Singapore: 'Singapore', London: 'United Kingdom', Manchester: 'United Kingdom', Toronto: 'Canada', Vancouver: 'Canada', Montreal: 'Canada',
+  'New York': 'United States', 'San Francisco': 'United States', Seattle: 'United States', Austin: 'United States', Chicago: 'United States', Boston: 'United States', Dallas: 'United States',
+  Berlin: 'Germany', Munich: 'Germany', Amsterdam: 'Netherlands', Dublin: 'Ireland', Sydney: 'Australia', Melbourne: 'Australia', Riyadh: 'Saudi Arabia', Doha: 'Qatar', 'Kuala Lumpur': 'Malaysia', Manila: 'Philippines', Colombo: 'Sri Lanka', Dhaka: 'Bangladesh', Karachi: 'Pakistan', Lahore: 'Pakistan', Nairobi: 'Kenya', Lagos: 'Nigeria', Johannesburg: 'South Africa', Cairo: 'Egypt' };

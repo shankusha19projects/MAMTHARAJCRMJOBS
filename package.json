@@ -1,0 +1,20 @@
+{
+  "name": "jobpilot-crm",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "setup": "npm install && cd app && npm install && npm run build",
+    "start": "node server/server.js",
+    "refresh": "node server/server.js --refresh",
+    "build": "cd app && npm run build",
+    "skill": "node scripts/make-skill.mjs"
+  },
+  "dependencies": {
+    "mammoth": "^1.12.3",
+    "pdfjs-dist": "^4.10.38"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
